@@ -9,6 +9,23 @@ abstract class VazPlatform(override val color: String) : Car {
     // Реализация интерфейса CarInput
     override fun wheelToLeft(degrees: Int) { wheelAngle -= degrees }
 
+    override val tankMouth: TankMouth = object : TankMouth {
+        private var isOpen = false
+
+        override fun open() {
+            isOpen = true
+            println("Горловина бака открыта.")
+        }
+
+        override fun close() {
+            isOpen = false
+            println("Горловина бака закрыта.")
+        }
+    }
+
+    override val tank: Tank = Tank(capacity = 50).apply {
+        mouth = tankMouth
+    }
     // Получить оборудование
     override fun getEquipment(): String = "Кузов, колеса, движок"
 

@@ -63,7 +63,7 @@ class Vaz2108 private constructor(color: String) : VazPlatform(color) {
 
     // Выводим состояние машины
     override fun toString(): String {
-        return "Vaz2108(plates=$plates, wheelAngle=$wheelAngle, currentSpeed=$currentSpeed)"
+        return "Машина ВАЗ 2108: номерной знак - ${plates.number} регион - ${plates.region}, угол поворота руля - $wheelAngle градусов, текущая скорость - $currentSpeed км/ч"
     }
 
     /**
@@ -77,6 +77,10 @@ class Vaz2108 private constructor(color: String) : VazPlatform(color) {
     inner class VazOutput : CarOutput {
         override fun getCurrentSpeed(): Int {
             return this@Vaz2108.currentSpeed
+        }
+
+        override fun getFuelContents(): Int {
+            return this@Vaz2108.tank.getContents()
         }
     }
 }

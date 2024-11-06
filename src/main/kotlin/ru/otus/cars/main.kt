@@ -2,18 +2,29 @@ package ru.otus.cars
 
 fun main() {
     println("\n===> drive cars...")
-    driveCars()
+    driveCars() // Запускаем функцию для проверки вождения
+
     println("\n===> inner test...")
-    innerNestedCheck()
+    innerNestedCheck() // Проверка внутреннего состояния
+
     println("\n===> garage make...")
-    garageMake()
+    garageMake() // Создание машины в гараже
+
     println("\n===> model special...")
+    // Дополнительные действия для проверки моделей (можно добавить сюда, если нужно)
+
     println("\n===> get equipment...")
-    getEquipment()
+    getEquipment() // Проверка оборудования
+
     println("\n===> get color...")
-    getColor()
+    getColor() // Проверка цвета
+
     println("\n===> tech checks...")
-    techChecks()
+    techChecks() // Проверка технического состояния
+
+    println("\n===> fuel tests...")
+    fuelTestDemo() // Тестирование системы заправки
+
     println("\n===> Taz...")
     println(Taz.color)
 }
@@ -29,13 +40,36 @@ fun driveCars() {
     println(vaz2.toString()) // Выводит -20 и случайную скорость
 }
 
+fun fuelTestDemo() {
+    val vaz1 = Togliatti.buildCar(Vaz2107, Car.Plates("123", 77))
+    val vaz2 = Togliatti.buildCar(Vaz2108, Car.Plates("321", 78))
+
+    fuelTest(vaz1, 30)
+    fuelTest(vaz2, 40)
+}
+
+fun fuelTest(car: Car, liters: Int) {
+    println("Текущий уровень топлива для ${car::class.simpleName}: ${car.carOutput.getFuelContents()} литров.")
+    when (val mouth = car.tankMouth) {
+        is PetrolMouth -> {
+            println("Заправляем бензином...")
+            mouth.fuelPetrol(car.tank, liters)
+        }
+        is LpgMouth -> {
+            println("Заправляем газом...")
+            mouth.fuelLpg(car.tank, liters)
+        }
+    }
+    println("Уровень топлива после заправки: ${car.carOutput.getFuelContents()} литров.")
+}
+
 fun innerNestedCheck() {
     val vaz = Vaz2107.build(Car.Plates("123", 77))
-    val output = vaz.VazOutput() // Создаем новый объект ИЗ ЭКЗЕМПЛЯРА МАШИНЫ
+    val output = vaz.VazOutput()
 
-    println("Скорость до проверки: ${output.getCurrentSpeed()}") // Выводит 0
-    Vaz2107.test(vaz) // Газуем...
-    println("Скорость после проверки: ${output.getCurrentSpeed()}") // Выводит случайную скорость
+    println("Скорость до проверки: ${output.getCurrentSpeed()}")
+    Vaz2107.test(vaz)
+    println("Скорость после проверки: ${output.getCurrentSpeed()}")
 }
 
 fun garageMake() {
@@ -83,9 +117,6 @@ fun techChecks() {
 }
 
 fun repairEngine(car: VazPlatform) {
-    // Проверяем тип двигателя
-    // В зависимости от типа двигателя выполняем разные действия
-    // when обеспечивает обход всех вариантов перечисления
     when (car.engine) {
         is VazEngine.LADA_2107 -> println("Чистка карбюратора у двигателя объемом ${car.engine.volume} куб.см у машины $car")
         is VazEngine.SAMARA_2108 -> println("Угол зажигания у двигателя объемом ${car.engine.volume} куб.см у машины $car")
